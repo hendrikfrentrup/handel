@@ -1,0 +1,17 @@
+[project]
+name = "handel"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "engine",
+    "pytest>=8.3.4",
+]
+
+[tool.uv.workspace]
+members = ["packages/*"]
+exclude = ["packages/test"]
+
+[tool.uv.sources]
+engine = { workspace = true }
