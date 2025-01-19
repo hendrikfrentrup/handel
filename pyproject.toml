@@ -6,7 +6,6 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "engine",
-    "pytest>=8.3.4",
 ]
 
 [tool.uv.workspace]
@@ -15,3 +14,9 @@ exclude = ["packages/test"]
 
 [tool.uv.sources]
 engine = { workspace = true }
+
+[dependency-groups]
+dev = [
+    "pytest-cov>=6.0.0",
+    "pytest>=8.3.4",
+]

@@ -2,6 +2,9 @@
     "python.testing.pytestArgs": [
         "packages/engine/"
     ],
+    "python.autoComplete.extraPaths": [
+        "packages/engine/"
+    ],
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true
 }
