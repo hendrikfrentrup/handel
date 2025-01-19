@@ -29,6 +29,10 @@ def test_limit_str():
     
     assert str(limit) == "100.0@$10.0[1]"
 
+def test_limit_repr():
+    limit = Limit(10.0)
+    assert isinstance(repr(limit), str)
+
 def test_limit_empty_str():
     limit = Limit(10.0)
     assert str(limit) == "0@$10.0[0]"

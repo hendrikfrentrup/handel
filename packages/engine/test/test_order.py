@@ -17,3 +17,8 @@ def test_order_str():
     
     order = Order(OrderType.BID, 100.0)
     assert str(order) == "Bid for 100.0"
+
+
+def test_order_repr():
+    order = Order(OrderType.BID, 100.0)
+    assert isinstance(repr(order), str)

@@ -1,19 +1,27 @@
 
-from typing import Dict
+from typing import Dict, List
 
 from .order import Order, OrderType
 from .limit import Limit
 
 class OrderBook:
     def __init__(self):
-        self.bids: Dict[float, Limit] = {}
         self.asks: Dict[float, Limit] = {}
+        self.bids: Dict[float, Limit] = {}
     
     def __str__(self):
-        return f"bids: {len(self.bids)}, asks: {len(self.asks)}"
+        return f"asks: {len(self.asks)}, bids: {len(self.bids)}"
 
     def __repr__(self):
         return str(self)
+    
+    @property
+    def _ask_limits(self) -> List[Limit]:
+        return sorted(self.asks.values(), key=lambda limit: limit.price)
+    
+    @property
+    def _bid_limits(self) -> List[Limit]:
+        return sorted(self.bids.values(), key=lambda limit: -limit.price)
     
     def _add_order_or_create_limit(self, price: float, order: Order, orders: Dict[float, Limit]):
 
@@ -29,7 +37,9 @@ class OrderBook:
             # limit.add_order(order)
             # orders[price] = limit
 
-    def add_limit_order(self, price: float, order: Order):
+    # TODO: determine if limit or market order and fill or add to orderbook based on price
+
+    def add_limit_order(self, price: float, order: Order) -> None:
         
         match order.order_type:
             case OrderType.BID:
@@ -39,7 +49,16 @@ class OrderBook:
             case _:
                 raise ValueError("Invalid order type")
             
-    
-    # TODO: implement this
-    def fill_market_order(self, market_order: Order):
-        pass
+    def fill_market_order(self, market_order: Order) -> None:
+        match market_order.order_type:
+            case OrderType.BID:
+                limits = self._ask_limits
+            case OrderType.ASK:
+                limits = self._bid_limits
+            case _:
+                raise ValueError("Invalid order type")
+            
+        for limit in limits:
+            limit.fill_order(market_order)
+            if market_order.is_filled:
+                break

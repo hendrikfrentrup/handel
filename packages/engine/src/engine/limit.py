@@ -21,7 +21,6 @@ class Limit:
     def total_volume(self):
         return sum([order.quantity for order in self.orders])
 
-    # TODO: implement this
     def fill_order(self, market_order: Order):
         for limit_order in self.orders:
             match market_order.quantity >= limit_order.quantity:
@@ -34,3 +33,5 @@ class Limit:
 
             if market_order.is_filled:
                 break
+
+        # TODO: remove filled orders
